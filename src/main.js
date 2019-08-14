@@ -19,5 +19,8 @@ new Vue({
   router,
   store,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  created() {
+    console.log(this.$options.el) // => '#app'
+  }
 })
