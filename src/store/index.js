@@ -5,6 +5,7 @@ import router from '../router'
 
 Vue.use(Vuex)
 
+// state：共享的状态，我们不能直接更改状态，但是可以像 store.state.user 这样访问一个状态；
 const state = {
   // 用户信息，初始值从本地 localStorage 获取
   user: ls.getItem('user'),
@@ -12,6 +13,8 @@ const state = {
   auth: ls.getItem('auth')
 }
 
+
+// 更改状态的方法，我们可以在这里更改状态，调用方法是像 store.commit('UPDATE_USER', user) 这样提交一个事件类型，这里不能包含异步操作；
 const mutations = {
   UPDATE_USER(state, user) {
     // 改变 user 的值
@@ -26,6 +29,7 @@ const mutations = {
   }
 }
 
+// 类似于 mutations，但我们不在这里直接更改状态，而是提交前面的 mutation，调用方法是像 store.dispatch('login') 这样分发一个事件，这里可以包含异步操作
 const actions = {
   login({ commit }, user) {
     // 登录时有传用户信息，就更新下用户信息
@@ -38,6 +42,19 @@ const actions = {
   logout({ commit}) {
     commit('UPDATE_AUTH', false)
     router.push({ name: 'Home', params: { logout: true} })
+  },
+  // 更新个人信息
+  updateUser({ state, commit }, user) {
+    // 获取仓库的个人信息
+    const stateUser = state.user
+
+    // 简单的数据类型判断
+    if (stateUser && typeof stateUser === 'object') {
+      // 合并新旧个人信息，等价于 user = Object.assign({}, stateUser, user)
+      user = { ...stateUser, ...user }
+    }
+
+    commit('UPDATE_USER', user)
   }
 }
 
