@@ -9,6 +9,7 @@ Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
+  linkExactActiveClass: 'active', // 其默认值是 'router-link-exact-active'，我们这里改为 'active' 以利用 Bootstrap 的激活样式
   routes
 })
 
