@@ -15,11 +15,15 @@ const router = new Router({
 
 // 全局前置守卫
 router.beforeEach((to, from, next) => {
+  const app = router.app
+  const store = app.$options.store
   // 获取仓库里的登录信息
-  const auth = router.app.$options.store.state.auth
+  const auth = store.state.auth
   // 或者
   // import store from '../store'
   // const auth = store.state.auth
+
+  app.$message.hide()
 
   if ((auth && to.path.indexOf('/auth/') !== -1) || (!auth && to.meta.auth)) {
     // 如果当前用户已登录，且目标路由包含 /auth/ ，就跳转到首页
