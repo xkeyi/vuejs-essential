@@ -4,6 +4,7 @@ import ls from '../utils/localStorage'
 import router from '../router'
 // 引入 actions.js 的所有导出
 import * as moreActions from './actions'
+import * as moreGetters from './getters'
 
 Vue.use(Vuex)
 
@@ -84,7 +85,8 @@ const getters = {
     } else {
       return null
     }
-  }
+  },
+  ...moreGetters
 }
 
 const store = new Vuex.Store({
